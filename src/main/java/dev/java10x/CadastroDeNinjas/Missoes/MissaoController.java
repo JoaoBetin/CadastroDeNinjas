@@ -28,4 +28,9 @@ public class MissaoController {
     public MissaoModel criarMissao(@RequestBody MissaoModel missaoModel){
         return missaoService.criarMissao(missaoModel);
     }
+
+    @DeleteMapping("/deletar/{id}")
+    public void deletarID(@PathVariable long id){
+        missaoService.deletarID(id);
+    }
 }
