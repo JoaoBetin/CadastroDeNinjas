@@ -1,6 +1,5 @@
 package dev.java10x.CadastroDeNinjas.Missoes;
 
-import jakarta.persistence.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,5 +31,10 @@ public class MissaoController {
     @DeleteMapping("/deletar/{id}")
     public void deletarID(@PathVariable long id){
         missaoService.deletarID(id);
+    }
+
+    @PutMapping("/alterar/{id}")
+    public MissaoModel atualizarPorID(@PathVariable long id, @RequestBody MissaoModel missaoAtualizada){
+        return missaoService.atualizarPorID(id, missaoAtualizada);
     }
 }
