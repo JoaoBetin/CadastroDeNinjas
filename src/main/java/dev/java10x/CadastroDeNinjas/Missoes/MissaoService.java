@@ -4,38 +4,48 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MissaoService {
     MissaoRepository missaoRepository;
+    MissaoMapper missaoMapper;
 
-    public MissaoService(MissaoRepository missaoRepository) {
+    public MissaoService(MissaoRepository missaoRepository, MissaoMapper missaoMapper) {
         this.missaoRepository = missaoRepository;
+        this.missaoMapper = missaoMapper;
     }
 
-    public List<MissaoModel> exibirMissoes(){
-        return missaoRepository.findAll();
+    public List<MissaoDTO> exibirMissoes(){
+        List<MissaoModel> missaoModel = missaoRepository.findAll();
+        return missaoModel.stream()
+                .map(missaoMapper::map)
+                .collect(Collectors.toList());
     }
 
-    public MissaoModel exibirMissaoID(long id){
+    public MissaoDTO exibirMissaoID(long id){
         Optional<MissaoModel> missaoModel = missaoRepository.findById(id);
-        return missaoModel.orElse(null);
+        return missaoModel.map(missaoMapper::map).orElse(null);
     }
 
-    public MissaoModel criarMissao(MissaoModel missaoModel){
-        return missaoRepository.save(missaoModel);
+    public MissaoDTO criarMissao(MissaoDTO missaoDTO){
+        MissaoModel missao = missaoMapper.map(missaoDTO);
+        missaoRepository.save(missao);
+        return missaoMapper.map(missao);
     }
 
     public void deletarID(long id){
         missaoRepository.deleteById(id);
     }
 
-    public MissaoModel atualizarPorID(long id, MissaoModel missaoAtualizada){
-        if(missaoRepository.existsById(id)){
-            missaoAtualizada.setId(id);
-            return missaoRepository.save(missaoAtualizada);
+    public MissaoDTO atualizarPorID(long id, MissaoDTO missaoUsuario) {
+        Optional<MissaoModel> missaoExistente = missaoRepository.findById(id);
+        if(missaoExistente.isPresent()){
+            MissaoModel missaoEntidade = missaoMapper.map(missaoUsuario);
+            missaoEntidade.setId(id);
+            MissaoModel missaoSalva = missaoRepository.save(missaoEntidade);
+            return missaoMapper.map(missaoSalva);
         }
         return null;
     }
-
 }
