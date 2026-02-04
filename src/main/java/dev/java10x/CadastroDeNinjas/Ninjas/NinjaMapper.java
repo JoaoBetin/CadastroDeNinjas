@@ -2,6 +2,8 @@ package dev.java10x.CadastroDeNinjas.Ninjas;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class NinjaMapper {
 
@@ -31,4 +33,7 @@ public class NinjaMapper {
         return ninjaDTO;
     }
 
+    public NinjaDTO map(Optional<NinjaModel> ninjaRemovido) {
+        return null;
+    }
 }
