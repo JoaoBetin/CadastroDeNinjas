@@ -31,9 +31,10 @@ public class NinjaService {
 
     public NinjaDTO criarNinja(NinjaDTO ninjaDTO){
         NinjaModel ninja = ninjaMapper.map(ninjaDTO);
-        ninjaRepository.save(ninja);
-        return ninjaMapper.map(ninja);
+        NinjaModel ninjaSalvo = ninjaRepository.save(ninja);
+        return ninjaMapper.map(ninjaSalvo);
     }
+
 
     public void deletarNinjaID(long id){
         ninjaRepository.deleteById(id);

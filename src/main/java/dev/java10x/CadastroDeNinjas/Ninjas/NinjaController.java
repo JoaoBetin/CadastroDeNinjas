@@ -18,7 +18,6 @@ public class NinjaController {
     // Adicionar ninja
     @PostMapping("/criar")
     public ResponseEntity<String> criarNinja(@RequestBody NinjaDTO ninja){
-
         NinjaDTO ninjaDTO = ninjaService.criarNinja(ninja);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ninjaDTO.getNome() + " foi criado com sucesso com id: " + ninjaDTO.getId() +"!");
@@ -26,10 +25,14 @@ public class NinjaController {
 
     // Exibir todos ninjas
     @GetMapping("/listar")
-    public ResponseEntity<List<NinjaDTO>> mostrarTodosOsNinjas(){
+    public ResponseEntity<?> mostrarTodosOsNinjas(){
         List<NinjaDTO> ninjaDTOList = ninjaService.listarNinjas();
 
-        return ResponseEntity.ok(ninjaDTOList);
+        if(!ninjaDTOList.isEmpty()){
+            return ResponseEntity.ok(ninjaDTOList);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Nenhum ninja cadastrado!");
     }
 
     // Exibir por ID
