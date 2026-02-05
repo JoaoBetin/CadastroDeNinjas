@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class MissaoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
